@@ -1,28 +1,35 @@
-INSERT INTO department (name)
+INSERT INTO departments (name)
 VALUES
   ('Finance'),
   ('Scheduling'),
-  ('Invoicing'),
   ('Trading'),
   ('Human Resources');
 
 INSERT INTO roles (title, salary, department_id)
 VALUES
-  ('Ronald', 'Firbank', 1, 1),
-  ('Virginia', 'Woolf', 1, 1),
-  ('Piers', 'Gaveston', 1, 0),
-  ('Charles', 'LeRoi', 2, 1),
-  ('Katherine', 'Mansfield', 2, 1),
-  ('Dora', 'Carrington', 3, 0),
-  ('Edward', 'Bellamy', 3, 0),
-  ('Montague', 'Summers', 3, 1),
-  ('Octavia', 'Butler', 3, 1),
-  ('Unica', 'Zurn', NULL, 1);
+('Finance Manager', 150000, 1),
+('Scheduling Manager', 100000, 2),
+('Trading Manager', 200000, 3),
+('HR Manager', 50000, 4),
+('Finance Analyst', 30000, 1),
+('Scheduler', 130000, 2),
+('Trader', 1300000, 3),
+('HR Analyst', 30000, 4);
 
-  INSERT INTO employee (first_name, last_name, role_id, manager_id)
+
+  INSERT INTO employees (first_name, last_name, role_id, manager_id)
 VALUES
-  ('James', 'Fraser', 'jf@goldenbough.edu'),
-  ('Jack', 'London', 'jlondon@ualaska.edu'),
-  ('Robert', 'Bruce', 'rbruce@scotland.net'),
-  ('Peter', 'Greenaway', 'pgreenaway@postmodern.com'),
-  ('Derek', 'Jarman', 'djarman@prospectcottage.net'),
+ 
+
+  ('Ronald', 'Firbank', 1, NULL),
+  ('Virginia', 'Woolf', 2, NULL),
+  ('Piers', 'Gaveston', 3, NULL),
+  ('Charles', 'LeRoi', 4, NULL),
+  ('Katherine', 'Mansfield', 5, 1),
+  ('Dora', 'Carrington', 6, 2),
+  ('Edward', 'Bellamy', 7, 3),
+  ('Montague', 'Summers', 8, 4),
+  ('Octavia', 'Butler', 5, 1),
+  ('Unica', 'Zurn', 6, 2),
+   ('William', 'Carleton', 7, 3),
+  ('Gerald', 'Griffin', 8,4);
