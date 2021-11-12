@@ -10,16 +10,73 @@ const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const teamArray = [];
 
-// start of the user interface - Manager data first
-const promptUser = () => {
+// start of the user interface
+// TODO: Create an array of questions for user input
+function init() {
+  inquirer
+    .prompt([
+  
+           {
+        type: "list",
+        name: "options",
+        message:
+          "What would you like to do?(select one, hit enter)",
+        choices: [
+          "View All Departments",
+          "View All Roles",
+          "View All Employees",
+          "Add a Department",
+          "Add a Role",
+          "Add an Employee",
+          "Update an employee role",
+          "Quit",
+        ],
+      }
+    ])
+
+    .then(function (data) {
+      switch(data){
+          case "View All Departments":
+            //   return query
+        ;
+        case "View All Roles":
+            // return query
+            ;
+        case "View All Employees" :
+            //  return query
+            ;
+        case"Add a Department" :
+        // collect info, add to db
+        ;
+        case "Add a Role" :
+           // collect info, add to db
+        ;   
+       case "Add an Employee" :
+           // collect info, add to db
+        ;   
+        case "Update an employee role" :
+           // collect info, update db
+        ; 
+         case "Quit":
+             return "";
+        
+    };
+
+    });
+
+}
+// - Manager data first
+
+// add Employee prompts
+const addEmployee = () => {
   return inquirer
     .prompt([
       {
         type: "input",
-        name: "name",
-        message: "What is the team manager's name? (Required)",
-        validate: (nameInput) => {
-          if (nameInput) {
+        name: "fname",
+        message: "What is the employee's first name? (Required)",
+        validate: (fnameInput) => {
+          if (fnameInput) {
             return true;
           } else {
             console.log("Please enter a name!");
@@ -30,58 +87,51 @@ const promptUser = () => {
 
       {
         type: "input",
-        name: "id",
-        message: "What is the team manager's employee id? (Required)",
-        validate: (idInput) => {
-          if (idInput) {
+        name: "lname",
+        message: "What is the employee's last name? (Required)",
+        validate: (lnameInput) => {
+          if (lnameInput) {
             return true;
           } else {
-            console.log("Please enter the id number!");
+            console.log("Please enter a name!");
             return false;
           }
         },
       },
-      // not going to pretend - got this from StackOverflow
       {
         type: "input",
-        name: "email",
-        message: "What is the team manager's email address? (Required)",
-        validate: (email) => {
-          valid =
-            /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+([^<>()\.,;:\s@\"]{2,}|[\d\.]+))$/.test(
-              email
-            );
-          if (valid) {
+        name: "role",
+        message: "What is the employee's role? (Required)",
+        validate: (roleInput) => {
+          if (roleInput) {
             return true;
           } else {
-            return "You have entered an invalid email address!";
+            console.log("Please enter the role!");
+            return false;
           }
         },
       },
 
-      {
+       {
         type: "input",
-        name: "phone",
-        message: "What is the team manager's phone number? (Required)",
-        validate: (phone) => {
-          pass =
-            /^([01]{1})?[-.\s]?\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})\s?((?:#|ext\.?\s?|x\.?\s?){1}(?:\d+)?)?$/.test(
-              phone
-            );
-          if (pass) {
+        name: "manager",
+        message: "Who is the employee's manager? (Required)",
+        validate: (managerInput) => {
+          if (managerInput) {
             return true;
           } else {
-            return "Please enter a valid phone number";
+            console.log("Please enter the manager!");
+            return false;
           }
         },
       },
     ])
 
-    .then((managerData) => {
-      const { name, id, email, phone } = managerData;
-      const manager = new Manager(name, id, email, phone);
+    .then((EmployeeData) => {
+      const { fname, lname, role, manager } = EmployeeData;
+      const employee = new Employee(fname, lname, role, manager);
 
-      teamArray.push(manager);
+      teamArray.push(Employee);
     });
 };
 
@@ -222,3 +272,18 @@ promptUser()
   .catch((err) => {
     console.log(err);
   });
+
+
+    {
+        type: "input",
+        name: "salary",
+        message: "What is the employee's salary? (Required)",
+        validate: (salaryInput) => {
+          if (salaryInput) {
+            return true;
+          } else {
+            console.log("Please enter the salary!");
+            return false;
+          }
+        },
+      },
