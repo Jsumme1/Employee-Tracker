@@ -19,9 +19,7 @@ VALUES
 
   INSERT INTO employees (first_name, last_name, role_id, manager_id)
 VALUES
- 
-
-  ('Ronald', 'Firbank', 1, NULL),
+   ('Ronald', 'Firbank', 1, NULL),
   ('Virginia', 'Woolf', 2, NULL),
   ('Piers', 'Gaveston', 3, NULL),
   ('Charles', 'LeRoi', 4, NULL),
