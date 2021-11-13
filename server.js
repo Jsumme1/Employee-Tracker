@@ -18,10 +18,11 @@ db.connect((err) => {
   if (err) throw err;
   console.log("Database connected.");
   app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    // console.log(`Server running on port ${PORT}`);
   });
 });
 
+console.log('\n', '             Welcome to the Employee Tracker!             ', '\n')
 // start of the user interface
 
 function init() {
@@ -76,7 +77,6 @@ function init() {
     ])
 
     .then(function (options) {
-      console.log(options.options);
       switch (options.options) {
         case "VIEW_DEPARTMENTS":
           //   return query
@@ -102,57 +102,90 @@ function init() {
             if (err) {
               console.log(err);
             }
-            console.log(row);
+            console.log(cTable.getTable(row));
           });
-
+ break;
         case "ADD_DEPARTMENT":
           // collect info, add to db INSERT INTO departments (name)
-          const sql = `INSERT INTO departments (name) 
+         
+           function departmentInit() {
+                 inquirer.prompt([
+                       {
+                          type: "input",
+                          name: "department",
+                          message: "What is the name of the department? (Required)",
+                          validate: (departmentInput) => {
+                            if (departmentInput) {
+                              return true;
+                            } else {
+                              console.log("Please enter the department");
+                              return false;
+                            }
+                          },
+                        },
+                      ])              
+        .then((answers) => {
+          //  const departments_name = answers.departmentInput;
+           const sql = `INSERT INTO departments (name) 
               VALUES (?)`;
-
-          db.query(sql, params, (err, result) => {
+           const value = [answers.departmentInput];
+          db.query(sql, value, (err, result) => {
             if (err) {
               console.log(err);
             }
-            console.log(result);
+            console.log("New Department Added");
           });
-
-        case "ADD_ROLE" :
-           // collect info, add to db INSERT INTO roles (title, salary, department)
-        const sql = `INSERT INTO roles (title, salary, department_id)
-              VALUES (?,?,?)`;
-        const params = [what goes here?];
-
-        db.query(sql, params, (err, result) => {
-        if (err) {
-            console.log(err);
-             }
-        console.log(result);
         });
+      }
+      departmentInit()
+ break;
+//         case "ADD_ROLE":
+//            // collect info, add to db INSERT INTO roles (title, salary, department)
+//            const titleName = data.titleChoice;
+//            const salaryValue = data.salaryChoice;
+//            const departmentValue = data.departmentChoice;
+//            const sql = `INSERT INTO roles (title, salary, department_id)
+//               VALUES (?,?,?)`;
+//            const value = [titleName, salaryValue, departmentValue];
+       
 
-         case "ADD_EMPLOYEE" :
-             // collect info, add to db INSERT INTO employees (first_name, last_name, role, manager)
-              const sql = `INSERT INTO employees (first_name, last_name, role, manager)
-                VALUES (?,?,?)`;
-          const params = [what goes here?];
+//         db.query(sql, value, (err, result) => {
+//         if (err) {
+//             console.log(err);
+//              }
+//         console.log('New Role Added!');
+//         });
+//  break;
+//          case "ADD_EMPLOYEE" :
+//                const firstName = data.fname;
+//                const lastName = data.lname;
+//                const roleName = data.role;
+//                const managerName = data.manager
+//              // collect info, add to db INSERT INTO employees (first_name, last_name, role, manager)
+//               const sql = `INSERT INTO employees (first_name, last_name, role, manager)
+//                 VALUES (?,?,?)`;
+//               const value = [firstName, lastName, roleName, managerName];
+       
+         
 
-          db.query(sql, params, (err, result) => {
-          if (err) {
-              console.log(err);
-               }
-          console.log(result);
-          });
-
-          case "UPDATE_EMPLOYEE":
-             // collect info, update db UPDATE employees SET role = (data.role) WHERE name = (data.lname)
-        case "QUIT":
+//           db.query(sql, value, (err, result) => {
+//           if (err) {
+//               console.log(err);
+//                }
+//           console.log("New Employee Added!");
+//           });
+//  break;
+//           case "UPDATE_EMPLOYEE":
+//              // collect info, update db UPDATE employees SET role = (data.role) WHERE name = (data.lname)
+//  break;
+             case "QUIT":
           return "";
       }
     });
 
 
 }
-// // - Manager data first
+
 
 // // add Employee prompts
 // const addEmployee = () => {
@@ -222,131 +255,6 @@ function init() {
 //     });
 // };
 
-// // get team members/subordinates data
-
-// const promptSubs = () => {
-//   return inquirer
-//     .prompt([
-//       {
-//         type: "list",
-//         name: "role",
-//         message: "What type of employee would you like to add?",
-//         choices: ["Engineer", "Intern"],
-//       },
-
-//       {
-//         type: "input",
-//         name: "name",
-//         message: "What is the team member's name? (Required)",
-//         validate: (nameInput) => {
-//           if (nameInput) {
-//             return true;
-//           } else {
-//             console.log("Please enter a name!");
-//             return false;
-//           }
-//         },
-//       },
-
-//       {
-//         type: "input",
-//         name: "id",
-//         message: "What is the team member's employee id? (Required)",
-//         validate: (idInput) => {
-//           if (idInput) {
-//             return true;
-//           } else {
-//             console.log("Please enter the id number!");
-//             return false;
-//           }
-//         },
-//       },
-
-//       {
-//         type: "input",
-//         name: "email",
-//         message: "What is the team member's email address? (Required)",
-//         validate: (email) => {
-//           valid =
-//             /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+([^<>()\.,;:\s@\"]{2,}|[\d\.]+))$/.test(
-//               email
-//             );
-//           if (valid) {
-//             return true;
-//           } else {
-//             return "You have entered an invalid email address!";
-//           }
-//         },
-//       },
-
-//       {
-//         type: "input",
-//         name: "github",
-//         message: "Please enter the Engineer's github username.",
-//         when: (input) => input.role === "Engineer",
-//         validate: (nameInput) => {
-//           if (nameInput) {
-//             return true;
-//           } else {
-//             console.log("Please enter the employee's github username!");
-//           }
-//         },
-//       },
-//       {
-//         type: "input",
-//         name: "school",
-//         message: "Please enter the intern's school",
-//         when: (input) => input.role === "Intern",
-//         validate: (nameInput) => {
-//           if (nameInput) {
-//             return true;
-//           } else {
-//             console.log("Please enter the intern's school!");
-//           }
-//         },
-//       },
-
-//       {
-//         type: "confirm",
-//         name: "confirmAddEmployee",
-//         message: "Would you like to add another team memeber?",
-//         default: false,
-//       },
-//     ])
-//     .then((subsData) => {
-//       let { name, id, email, role, github, school, confirmAddEmployee } =
-//         subsData;
-//       let employee;
-
-//       if (role === "Engineer") {
-//         employee = new Engineer(name, id, email, github);
-//       } else if (role === "Intern") {
-//         employee = new Intern(name, id, email, school);
-//       }
-
-//       teamArray.push(employee);
-
-//       if (confirmAddEmployee) {
-//         return promptSubs(teamArray);
-//       } else {
-//         return teamArray;
-//       }
-//     });
-// };
-
-
-
-// promptUser()
-//   .then(promptSubs)
-//   .then((teamArray) => {
-//     return generatePage(teamArray);
-//   })
-//   .then((pageHTML) => {
-//     return writeFile(pageHTML);
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
 
  init();
 
