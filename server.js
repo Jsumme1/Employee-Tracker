@@ -126,9 +126,10 @@ function init() {
                       ])              
         .then((answers) => {
           //  const departments_name = answers.departmentInput;
-           const sql = `INSERT INTO departments (name) 
+          const sql = `INSERT INTO departments (name) 
               VALUES (?)`;
-           const value = [answers.departmentInput];
+          console.log(answers.departmentInput);
+          const value = [answers.departmentInput];
           db.query(sql, value, (err, result) => {
             if (err) {
               console.log(err);
