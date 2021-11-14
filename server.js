@@ -243,51 +243,51 @@ function init() {
                  console.log(managerChoices);
                  // add Employee prompts
   
-            inquirer
-    .prompt([
-      {
-        type: "input",
-        name: "fname",
-        message: "What is the employee's first name? (Required)",
-        validate: (fnameInput) => {
-          if (fnameInput) {
-            return true;
-          } else {
-            console.log("Please enter a name!");
-            return false;
-          }
-        },
-      },
+                  inquirer
+                           .prompt([
+                                      {
+                                        type: "input",
+                                        name: "fname",
+                                        message: "What is the employee's first name? (Required)",
+                                        validate: (fnameInput) => {
+                                          if (fnameInput) {
+                                            return true;
+                                          } else {
+                                            console.log("Please enter a name!");
+                                            return false;
+                                          }
+                                        },
+                                      },
 
-      {
-        type: "input",
-        name: "lname",
-        message: "What is the employee's last name? (Required)",
-        validate: (lnameInput) => {
-          if (lnameInput) {
-            return true;
-          } else {
-            console.log("Please enter a name!");
-            return false;
-          }
-        },
-      },
-      {
-        type: "list",
-        name: "role",
-        message: "What is the employee's role? (Required)",
-        choices: roleChoices
-         
-      },
+                                      {
+                                        type: "input",
+                                        name: "lname",
+                                        message: "What is the employee's last name? (Required)",
+                                        validate: (lnameInput) => {
+                                          if (lnameInput) {
+                                            return true;
+                                          } else {
+                                            console.log("Please enter a name!");
+                                            return false;
+                                          }
+                                        },
+                                      },
+                                      {
+                                        type: "list",
+                                        name: "role",
+                                        message: "What is the employee's role? (Required)",
+                                        choices: roleChoices
+                                        
+                                      },
 
-       {
-        type: "list",
-        name: "manager",
-        message: "Who is the employee's manager? (Required)",
-        choices: managerChoices
-      },
-    ])
- .then((data) => {
+                                      {
+                                        type: "list",
+                                        name: "manager",
+                                        message: "Who is the employee's manager? (Required)",
+                                        choices: managerChoices
+                                      },
+                                    ])
+              .then((data) => {
                console.log(data);
                const firstName = data.fname;
                const lastName = data.lname;
@@ -298,13 +298,12 @@ function init() {
                 VALUES (?,?,?,?)`;
               const value = [firstName, lastName, roleName, managerName];
        
-         
-
           db.query(sql, value, (err, result) => {
           if (err) {
               console.log(err);
                }
           console.log("New Employee Added!");
+          init();
           });
         })
         });
@@ -313,9 +312,70 @@ function init() {
     }
    employeeInit();   
  break;
-//           case "UPDATE_EMPLOYEE":
-//              // collect info, update db UPDATE employees SET role = (data.role) WHERE name = (data.lname)
-//  break;
+          case "UPDATE_EMPLOYEE":
+                function updateRole() {
+                  db.query(`SELECT * FROM employees`, (err, row) => {
+                    if (err) {
+                      console.log(err);
+                    }
+                    var employeeChoices = row.map((employee) => {
+                      return {
+                        name: employee.first_name+ employee.last_name, value: employee.id};
+                    });
+                    console.log(employeeChoices);
+
+                    db.query(`SELECT * FROM roles`, (err, row) => {
+                      if (err) {
+                        console.log(err);
+                      }
+                      var roleChoices = row.map((role) => {
+                        return { name: role.title, value: role.id };
+                      });
+                      console.log(roleChoices);
+
+                      inquirer
+                        .prompt([
+                          {
+                            type: "list",
+                            name: "EmployeeChoice",
+                            message: "What is the name of the employee?",
+                            choices: employeeChoices
+                          },
+                          {
+                            type: "list",
+                            name: "role",
+                            message: "What is the new employee's role?",
+                            choices: newRoleChoices
+                          },
+                        ])
+
+                        .then((data) => {
+                          console.log(data);
+                          // collect info, update db UPDATE employees SET role = (data.role) WHERE name = (data.fist_name)
+                          const employeeId = data.EmployeeChoice;
+                          const newRole = data.role;
+
+                          const sql = `UPDATE employees SET role = (data.role) WHERE = (data.employee_id)
+              VALUES (?,?)`;
+                          const value = [newRole, employeeId];
+                          console.log(value);
+
+                          db.query(sql, value, (err, result) => {
+                            if (err) {
+                              console.log(err);
+                            }
+                            console.log("Role Updated!");
+                            init();
+                          });
+                        })
+                    });
+                  });
+
+                
+                }
+            updateRole();
+            
+ break;
           case "QUIT":
           process.exit();
       }
