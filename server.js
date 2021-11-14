@@ -105,13 +105,29 @@ function init() {
           break;
         case "VIEW_EMPLOYEES":
           //  return query SELECT * FROM employees
-          db.query(`SELECT * FROM employees`, (err, row) => {
-            if (err) {
-              console.log(err);
+          db.query(
+            `SELECT 
+                  first_name, 
+                  last_name, 
+                  title,
+                  name AS department_name,
+                  salary,
+                  manager_id
+                  FROM employees AS e
+                  INNER JOIN
+                  roles AS r
+                  ON e.role_id = r.id
+                  LEFT JOIN 
+                  departments AS d
+                  ON r.department_id = d.id`,
+            (err, row) => {
+              if (err) {
+                console.log(err);
+              }
+              console.log(cTable.getTable(row));
+              init();
             }
-            console.log(cTable.getTable(row));
-            init();
-          });
+          );
  break;
         case "ADD_DEPARTMENT":
           // collect info, add to db INSERT INTO departments (name)
@@ -133,7 +149,7 @@ function init() {
                         },
                       ])              
         .then((answers) => {
-          console.log(answers);
+          
           //  const departments_name = answers.departmentInput;
           const sql = `INSERT INTO departments (name) 
               VALUES (?)`;
@@ -160,7 +176,7 @@ function init() {
                  var departmentChoices = row.map((department) => {
                    return { name: department.name, value: department.id };
                  });
-                 console.log(departmentChoices);
+                
                  inquirer
                    .prompt([
                      {
@@ -199,7 +215,7 @@ function init() {
                    ])
 
                    .then((data) => {
-                     console.log(data);
+                     
 
                      // collect info, add to db INSERT INTO roles (title, salary, department)
                      const titleName = data.titleInput;
@@ -208,9 +224,7 @@ function init() {
                      const sql = `INSERT INTO roles (title, salary, department_id)
               VALUES (?,?,?)`;
                      const value = [titleName, salaryValue, departmentValue];
-                     console.log(value);
-
-                     db.query(sql, value, (err, result) => {
+                    db.query(sql, value, (err, result) => {
                        if (err) {
                          console.log(err);
                        }
@@ -232,21 +246,20 @@ function init() {
                  var roleChoices = row.map((role) => {
                    return { name: role.title, value: role.id };
                  });
-                 console.log(roleChoices);
+                 
 
                  db.query(`SELECT * FROM employees`, (err, row) => {
                  if (err) {
                    console.log(err);
                  }
-                 var managers = row.filter (employee =>  {console.log(employee.manager_id); 
-                  return employee.manager_id == null})
-                 console.log(managers);
+                 var managers = row.filter (employee =>  {
+                  return employee.manager_id == null});
+                 
                  var managerChoices = managers.map((manager) => {
                    return { name: manager.first_name + manager.last_name, value: manager.id };
                  });
                  
-                 console.log(managerChoices);
-                 // add Employee prompts
+                // add Employee prompts
   
                   inquirer
                            .prompt([
@@ -293,7 +306,7 @@ function init() {
                                       },
                                     ])
               .then((data) => {
-               console.log(data);
+               
                const firstName = data.fname;
                const lastName = data.lname;
                const roleName = data.role;
@@ -327,7 +340,6 @@ function init() {
                       return {
                         name: employee.first_name+ employee.last_name, value: employee.id};
                     });
-                    console.log(employeeChoices);
 
                     db.query(`SELECT * FROM roles`, (err, row) => {
                       if (err) {
@@ -355,7 +367,7 @@ function init() {
                         ])
 
                         .then((data) => {
-                          console.log(data);
+                          
                           // collect info, update db UPDATE employees SET role = (data.role) WHERE name = (data.fist_name)
                           const employeeId = data.EmployeeChoice;
                           const newRole = data.role;
