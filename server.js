@@ -90,13 +90,18 @@ function init() {
           break;
         case "VIEW_ROLES":
           // return query
-          db.query(`SELECT * FROM roles`, (err, row) => {
-            if (err) {
-              console.log(err);
+          db.query(
+            `SELECT roles.*, departments.name AS department_name
+            FROM roles
+            LEFT JOIN departments ON roles.department_id = departments.id`,
+            (err, row) => {
+              if (err) {
+                console.log(err);
+              }
+              console.log(cTable.getTable(row));
+              init();
             }
-            console.log(cTable.getTable(row));
-            init();
-          });
+          );
           break;
         case "VIEW_EMPLOYEES":
           //  return query SELECT * FROM employees
@@ -138,7 +143,7 @@ function init() {
             if (err) {
               console.log(err);
             }
-            console.log("New Department Added");
+            console.log('\n', 'New Department Added', '\n');
             init();
           });
         });
@@ -209,7 +214,7 @@ function init() {
                        if (err) {
                          console.log(err);
                        }
-                       console.log("New Role Added!");
+                       console.log("\n", "New Role Added!", "\n");
                        init();
                      });
                    });
@@ -302,7 +307,7 @@ function init() {
           if (err) {
               console.log(err);
                }
-          console.log("New Employee Added!");
+          console.log("\n", "New Employee Added!", "\n");
           init();
           });
         })
@@ -312,7 +317,7 @@ function init() {
     }
    employeeInit();   
  break;
-          case "UPDATE_EMPLOYEE":
+          case "UPDATE_ROLE":
                 function updateRole() {
                   db.query(`SELECT * FROM employees`, (err, row) => {
                     if (err) {
@@ -328,10 +333,10 @@ function init() {
                       if (err) {
                         console.log(err);
                       }
-                      var roleChoices = row.map((role) => {
+                      var newRoleChoices = row.map((role) => {
                         return { name: role.title, value: role.id };
                       });
-                      console.log(roleChoices);
+                      
 
                       inquirer
                         .prompt([
@@ -355,16 +360,14 @@ function init() {
                           const employeeId = data.EmployeeChoice;
                           const newRole = data.role;
 
-                          const sql = `UPDATE employees SET role = (data.role) WHERE = (data.employee_id)
-              VALUES (?,?)`;
+                          const sql = `UPDATE employees SET role_id = ? WHERE id = ?`;
                           const value = [newRole, employeeId];
-                          console.log(value);
-
+                          
                           db.query(sql, value, (err, result) => {
                             if (err) {
                               console.log(err);
                             }
-                            console.log("Role Updated!");
+                            console.log("\n", "Role Updated!", "\n");
                             init();
                           });
                         })
