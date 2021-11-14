@@ -6,8 +6,8 @@
 * [Usage](#usage)
 * [Images](#images)
 * [Contributions](#contributions)
-* [Viedo Link](#video)
-* [Software] (#software)
+* [Video Link](#video)
+* [Software](#software)
 * [Questions](#questions)
 
 ## Installation
@@ -35,17 +35,17 @@ WHEN I choose to update an employee role
 THEN I am prompted to select an employee to update and their new role and this information is updated in the database 
 
 ## Images 
-![Example of HTML output](src\teamexampl.JPG)
+![Example of command line output](images\ViewImages.JPG)
 
 ## Contributions
 Made by Julie
 
 ## Video Link
 
-[https://watch.screencastify.com/v/i4eblT4DYs98lADJMgRa]
+[https://watch.screencastify.com/v/5ZYkMJzrRG0STbYfsOat]
 
 ## Software
-This app used javaScript, inquirer, jsNode and several npm packages
+This app was created using javaScript, inquirer, jsNode and several npm packages
 
 
 ## Questions 

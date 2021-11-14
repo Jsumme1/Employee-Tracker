@@ -16,9 +16,7 @@ app.use(express.json());
 // Start server after DB connection
 db.connect((err) => {
   if (err) throw err;
-  console.log("Database connected.");
   app.listen(PORT, () => {
-    // console.log(`Server running on port ${PORT}`);
   });
 });
 
@@ -182,7 +180,7 @@ function init() {
                      {
                        type: "input",
                        name: "titleInput",
-                       message: "What is the name of the title? (Required)",
+                       message: "What is the title? (Required)",
                        validate: (departmentInput) => {
                          if (departmentInput) {
                            return true;
@@ -215,8 +213,6 @@ function init() {
                    ])
 
                    .then((data) => {
-                     
-
                      // collect info, add to db INSERT INTO roles (title, salary, department)
                      const titleName = data.titleInput;
                      const salaryValue = data.salaryInput;
@@ -233,7 +229,7 @@ function init() {
                      });
                    });
                }); 
-    }
+           }
 
     roleInit()
  break;
@@ -246,7 +242,6 @@ function init() {
                  var roleChoices = row.map((role) => {
                    return { name: role.title, value: role.id };
                  });
-                 
 
                  db.query(`SELECT * FROM employees`, (err, row) => {
                  if (err) {
@@ -260,7 +255,6 @@ function init() {
                  });
                  
                 // add Employee prompts
-  
                   inquirer
                            .prompt([
                                       {
@@ -325,8 +319,7 @@ function init() {
           });
         })
         });
-      });
-   
+      });  
     }
    employeeInit();   
  break;
@@ -338,7 +331,7 @@ function init() {
                     }
                     var employeeChoices = row.map((employee) => {
                       return {
-                        name: employee.first_name+ employee.last_name, value: employee.id};
+                        name: employee.first_name + employee.last_name, value: employee.id};
                     });
 
                     db.query(`SELECT * FROM roles`, (err, row) => {
@@ -384,25 +377,15 @@ function init() {
                           });
                         })
                     });
-                  });
-
-                
+                  });               
                 }
             updateRole();
-            
- break;
+    break;
           case "QUIT":
           process.exit();
       }
     });
-
-
 }
-
-
-
-
-
  init();
 
   
