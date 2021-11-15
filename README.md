@@ -35,7 +35,7 @@ WHEN I choose to update an employee role
 THEN I am prompted to select an employee to update and their new role and this information is updated in the database 
 
 ## Images 
-![Example of command line output](images\ViewImages.JPG)
+![Example of command line output](https://github.com/Jsumme1/Employee-Tracker/blob/main/images/ViewImages.JPG)
 
 ## Contributions
 Made by Julie
